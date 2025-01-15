@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.dt-info{
+    @apply mt-2
+}
+/* .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0.5rem 1rem;
+    margin: 0 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+} */
+
+.dt-paging-button{
+    @apply p-2 mx-1 mt-2 rounded-sm
+}
+
+.dt-paging-button:hover {
+    background-color: #f0f0f0;
+}
+
+.dt-paging-button.current {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+.dt-paging-button.disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.dataTables_wrapper .dataTables_paginate .ellipsis {
+    padding: 0.5rem 1rem;
+    margin: 0 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    background-color: #fff;
+    color: #333;
+}
