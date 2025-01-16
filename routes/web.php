@@ -1,33 +1,35 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
-
 Route::get('users', [UserController::class, 'index'])->name('users.index');
 Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
 Route::post('/users', [UserController::class, 'store'])->name('users.store');
-Route::get('/users/login', [UserController::class, 'login'])->name('users.login');
-Route::post('/users/login', [UserController::class, 'loginPost'])->name('users.loginPost');
+Route::post('/users/login/', [UserController::class, 'loginPost'])->name('users.loginPost');
+Route::post('/users/login/pin/', [UserController::class, 'pinLoginPost'])->name('users.pin.login');
 
-Route::get('/branch', function(){
+Route::get('/', function () {
+    return Inertia::render('Auth/UsernamePasswordLogin');
+})->name('users.login.password');
+
+Route::get('/users/login/pin', function () {
+    return Inertia::render('Auth/Index');
+})->name('users.login.pin');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
+Route::get('/report', function () {
+    return Inertia::render('Report/Index');
+})->name('report.index');
+
+Route::get('/branch', function () {
     return Inertia::render('Branch/Index');
 })->name('branches.index');
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -35,4 +37,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

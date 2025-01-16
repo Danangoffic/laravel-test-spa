@@ -43,3 +43,51 @@
     background-color: #fff;
     color: #333;
 }
+
+.custom_content {
+    width: calc(100% - 60px);
+    left: 60px;
+}
+
+.custom_content.active {
+    width: calc(100% - 240px);
+    left: 240px;
+}
+
+.primary-text {
+    color: #1c75bc;
+}
+.sidebar.active ~ .custom_content {
+    width: calc(100% - 200px);
+    left: 200px;
+}
+
+/* CUSTOM DATATABLE */
+div.dt-container div.dt-search {
+    margin-bottom: 1rem;
+}
+div.dt-container div.dt-search input {
+    border-radius: 0.5rem;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+    font-size: 12px !important;
+}
+div.dt-container div.dt-search label {
+    font-size: 12px;
+}
+div.dt-container div.dt-paging {
+    text-align: right;
+}
+.dt-paging-button {
+    background-color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 6px 14px;
+}
+.dt-info {
+    font-size: 12px;
+}
+table.dataTable td {
+    color: #6B7280;
+}
+/* END DATATABLE */

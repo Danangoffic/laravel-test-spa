@@ -17,12 +17,6 @@
 </head>
 
 <body class="flex h-screen bg-gray-100">
-    <!-- Sidebar -->
-    @include('components.sidebar')
-
-    <!-- Navbar -->
-    @include('components.navbar')
-
     <!-- Content -->
     @yield('content')
 

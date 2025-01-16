@@ -1,3 +1,47 @@
+# Project Name
+TEST FE Riselda
+
+## Prasyarat
+Sebelum menjalankan proyek, pastikan Anda memiliki perangkat lunak berikut yang sudah terpasang:
+- **PHP 8.1+**: Pastikan Anda memiliki PHP versi 8.1 atau lebih tinggi.
+- **Composer**: Dependency manager untuk PHP.
+- **Node.js & npm**: Untuk menjalankan Tailwind CSS dan mengelola dependensi frontend.
+- **MySQL**: Pastikan MySQL atau MariaDB sudah terpasang untuk database.
+
+## Cara Menjalankan Proyek
+
+### 1. Instal Dependensi PHP
+cd <nama-direktori-proyek>
+composer install
+### 2. Konfigurasi File .env
+### 3. Generate Application Key
+php artisan key:generate
+### 4. Migrasi Database
+php artisan migrate
+php artisan db:seed  <!--Create Data Dummy for Login-->
+### 5. Generate Application Key
+php artisan key:generate
+### 6. Instal Dependensi Frontend
+npm install
+### 7. Konfigurasi Tailwind CSS
+npm run dev
+### 8. Menjalankan Proyek
+php artisan serve
+
+To access the system, please use the following credentials:
+- **Username**: admin@gmail.com
+- **Password**: 123123123
+- **PIN**: 757575
+
+
+
+
+
+
+
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">

@@ -26,6 +26,7 @@
         "datatables.net-bs5": "^2.2.1",
         "flowbite": "^2.5.2",
         "nprogress": "^0.2.0",
+        "preline": "^2.7.0",
         "sweetalert2": "^11.15.10",
         "vue-sweetalert2": "^5.0.11"
     }

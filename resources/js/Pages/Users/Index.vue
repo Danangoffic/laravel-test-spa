@@ -1,91 +1,114 @@
-<!-- resources/js/Pages/Users/Index.vue -->
 <template>
-    <div>
-
-        <Head title="User List" />
-        <div class="p-6">
-            <h1 class="text-2xl font-bold mb-4">User List</h1>
-            <button @click="fetchUsers"
-                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4">Retrieve</button>
-            <button @click="showCreateForm = true"
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4">Create
-                User</button>
-            <div v-if="showCreateForm">
-                <CreateUserForm @close="showCreateForm = false" />
-            </div>
-            <div class="mb-4">
-                <div class="flex flex-wrap -mx-2">
-                    <div class="w-full md:w-1/2 px-2 mb-2">
-                        <input v-model="filters.name" type="text" placeholder="Name"
-                            class="w-full p-1 border border-gray-300 rounded " />
+    <MainLayout>
+        <div class="relative h-full pt-14 custom_content transition-all ease-in-out duration-500 bg-[#EBF4FA]">
+            <div class="px-6 pt-4">
+                <h1 class="text-3xl font-bold primary-text tracking-tight mb-4">USERS</h1>
+                <div>
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center justify-start space-x-2">
+                            <div>
+                                <input v-model="filters.name" type="text" placeholder="Search Name"
+                                    class="w-full p-2 border border-gray-300 rounded-md text-xs" />
+                            </div>
+                            <div>
+                                <input v-model="filters.email" type="text" placeholder="Search Email"
+                                    class="w-full p-2 border border-gray-300 rounded-md text-xs" />
+                            </div>
+                            <div>
+                                <input v-model="filters.nomor_ktp" type="text" placeholder="Search ID Number"
+                                    class="w-full p-2 border border-gray-300 rounded-md text-xs" />
+                            </div>
+                            <div>
+                                <select v-model="filters.gender"
+                                    class="w-full p-2 border border-gray-300 rounded-md text-xs">
+                                    <option value="" disabled>Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+                            <div><input v-model="filters.birthdate" type="date"
+                                    class="w-full p-2 border border-gray-300 rounded-md text-xs" /></div>
+                        </div>
+                        <div class="flex items-center justify-end space-x-2">
+                            <button @click="showCreateForm = true"
+                                class="flex items-center justify-center bg-blue-500 hover:bg-blue-700 text-sm text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                <svg class="w-4 h-4 mr-1 text-white" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                    viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="3" d="M5 12h14m-7 7V5" />
+                                </svg>
+                                Add User
+                            </button>
+                            <button @click="fetchUsers"
+                                class="bg-green-500 hover:bg-green-700 text-sm text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Retrieve
+                                Data</button>
+                            <div v-if="showCreateForm">
+                                <CreateUserForm @close="showCreateForm = false" />
+                            </div>
+                        </div>
                     </div>
-                    <div class="w-full md:w-1/2 px-2 mb-2">
-                        <input v-model="filters.email" type="text" placeholder="Email"
-                            class="w-full p-1 border border-gray-300 rounded" />
+                </div>
+                <div>
+                    <table class="w-full text-sm text-left text-gray-500">
+                        <thead class="text-xs text-white uppercase bg-[#1C75BC]">
+                            <tr>
+                                <th scope="col" class="py-3 text-center cursor-pointer" @click="sort('number')">No</th>
+                                <th scope="col" class="py-3 text-center cursor-pointer" @click="sort('id')">ID</th>
+                                <th scope="col" class="py-3 text-center cursor-pointer" @click="sort('name')">Name</th>
+                                <th scope="col" class="py-3 text-center cursor-pointer" @click="sort('email')">Email</th>
+                                <th scope="col" class="py-3 text-center cursor-pointer" @click="sort('address')">Address</th>
+                                <th scope="col" class="py-3 text-center cursor-pointer" @click="sort('nomor_ktp')">ID Number
+                                </th>
+                                <th scope="col" class="py-3 text-center cursor-pointer" @click="sort('gender')">Gender</th>
+                                <th scope="col" class="py-3 text-center cursor-pointer" @click="sort('birthdate')">Birthdate
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(user, index) in users.data" :key="user.id" class="bg-white border-b text-xs">
+                                <td class="p-3">{{ index + 1 }}</td>
+                                <td class="p-3">{{ user.id }}</td>
+                                <td class="p-3">{{ user.name }}</td>
+                                <td class="p-3">{{ user.email }}</td>
+                                <td class="p-3">{{ user.address }}</td>
+                                <td class="p-3">{{ user.nomor_ktp }}</td>
+                                <td class="p-3">{{ user.gender }}</td>
+                                <td class="p-3">{{ user.birthdate }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-end items-center mt-4">
+                    <div class="flex">
+                        <button @click="currentPage = currentPage - 1" :disabled="currentPage == 1"
+                            :class="{ 'bg-blue-500 text-white': currentPage === page, 'bg-white text-gray-600': currentPage !== page }"
+                            class="text-xs mx-1 px-3.5 py-1.5 rounded focus:outline-none focus:shadow-outline">
+                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" d="m14 8-4 4 4 4" />
+                            </svg>
+                        </button>
+                        <button v-for="page in users.last_page" :key="page" @click="currentPage = page"
+                            :class="{ 'bg-blue-500 text-white': currentPage === page, 'bg-white text-gray-600': currentPage !== page }"
+                            class="text-xs mx-1 px-3.5 py-1.5 rounded focus:outline-none focus:shadow-outline">
+                            {{ page }}
+                        </button> <button @click="currentPage = currentPage + 1"
+                            :disabled="currentPage == users.last_page"
+                            :class="{ 'bg-blue-500 text-white': currentPage === page, 'bg-white text-gray-600': currentPage !== page }"
+                            class="text-xs mx-1 px-3.5 py-1.5 rounded focus:outline-none focus:shadow-outline">
+                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5" d="m10 16 4-4-4-4" />
+                            </svg>
+                        </button>
                     </div>
-                    <div class="w-full md:w-1/2 px-2 mb-2">
-                        <input v-model="filters.nomor_ktp" type="text" placeholder="Nomor KTP"
-                            class="w-full p-1 border border-gray-300 rounded" />
-                    </div>
-                    <div class="w-full md:w-1/2 px-2 mb-2">
-                        <select v-model="filters.gender" class="w-full p-1 border border-gray-300 rounded">
-                            <option value="" disabled>Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
-                    </div>
-                    <div class="w-full md:w-1/2 px-2 mb-2"><input v-model="filters.birthdate" type="date"
-                            class="w-full p-1 border border-gray-300 rounded" /></div>
                 </div>
             </div>
-            <table class="w-full text-sm text-left text-gray-500">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                    <tr>
-                        <th scope="col" class="px-6 py-3 cursor-pointer" @click="sort('number')">Number</th>
-                        <th scope="col" class="px-6 py-3 cursor-pointer" @click="sort('id')">User ID</th>
-                        <th scope="col" class="px-6 py-3 cursor-pointer" @click="sort('name')">Name</th>
-                        <th scope="col" class="px-6 py-3 cursor-pointer" @click="sort('email')">Email</th>
-                        <th scope="col" class="px-6 py-3 cursor-pointer" @click="sort('address')">Address</th>
-                        <th scope="col" class="px-6 py-3 cursor-pointer" @click="sort('nomor_ktp')">Nomor KTP</th>
-                        <th scope="col" class="px-6 py-3 cursor-pointer" @click="sort('gender')">Gender</th>
-                        <th scope="col" class="px-6 py-3 cursor-pointer" @click="sort('birthdate')">Birthdate</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(user, index) in users.data" :key="user.id" class="bg-white border-b">
-                        <td class="px-6 py-4">{{ index + 1 }}</td>
-                        <td class="px-6 py-4">{{ user.id }}</td>
-                        <td class="px-6 py-4">{{ user.name }}</td>
-                        <td class="px-6 py-4">{{ user.email }}</td>
-                        <td class="px-6 py-4">{{ user.address }}</td>
-                        <td class="px-6 py-4">{{ user.nomor_ktp }}</td>
-                        <td class="px-6 py-4">{{ user.gender }}</td>
-                        <td class="px-6 py-4">{{ user.birthdate }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="flex justify-between items-center mt-4">
-
-                <div class="flex">
-                    <button @click="currentPage = currentPage - 1" :disabled="currentPage == 1"
-                        :class="{ 'bg-blue-500 text-white': currentPage === page, 'bg-gray-200 text-gray-700': currentPage !== page }"
-                        class="mx-1 px-3 py-1 rounded focus:outline-none focus:shadow-outline">
-                        Previous
-                    </button>
-                    <button v-for="page in users.last_page" :key="page" @click="currentPage = page"
-                        :class="{ 'bg-blue-500 text-white': currentPage === page, 'bg-gray-200 text-gray-700': currentPage !== page }"
-                        class="mx-1 px-3 py-1 rounded focus:outline-none focus:shadow-outline">
-                        {{ page }}
-                    </button> <button @click="currentPage = currentPage + 1" :disabled="currentPage == users.last_page"
-                        :class="{ 'bg-blue-500 text-white': currentPage === page, 'bg-gray-200 text-gray-700': currentPage !== page }"
-                        class="mx-1 px-3 py-1 rounded focus:outline-none focus:shadow-outline">
-                        Next
-                    </button>
-                </div>
-            </div>
-
         </div>
-    </div>
+    </MainLayout>
 </template>
 
 <script>
@@ -93,11 +116,13 @@ import { Head } from '@inertiajs/vue3'
 import { ref, watch, computed } from 'vue'
 import axios from 'axios'
 import CreateUserForm from './CreateUserForm.vue'
+import MainLayout from '@/Layouts/MainLayout.vue';
 
 export default {
     components: {
         CreateUserForm,
-        Head
+        Head,
+        MainLayout
     },
     setup() {
         const users = ref([])
@@ -135,10 +160,10 @@ export default {
                 sortKey.value = key
                 sortOrder.value = 'asc'
             }
-            if (key == 'number'){
-                
+            if (key == 'number') {
+
                 sortOrder.value = 'asc'
-            }else{
+            } else {
                 currentPage.value = 1
                 fetchUsers()
             }
@@ -162,6 +187,6 @@ export default {
             sort,
         }
     }
-    
-}  
+
+}
 </script>

@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class UserController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return Inertia::render('Users/Index');
     }
 
@@ -53,15 +56,38 @@ class UserController extends Controller
         }
     }
 
-    public function login(){
+    public function login()
+    {
         return Inertia::render('Users/Login');
     }
 
-    public function loginPost(Request $request){
+    public function loginPost(Request $request)
+    {
         sleep(2);
-        return to_route('users.login');
+        $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+            'confirmPassword' => 'required|string|same:password',
+        ]);
+        $user = User::where('email', $request->email)->first();
+        if ($user && Hash::check($request->password, $user->password)) {
+            Auth::login($user);
+            return to_route('users.login.password')->with(['showAlert' => true]);
+        }
+
+        return back()->withErrors(['error' => 'Invalid Credentials'])->withInput();
+    }
+
+    public function pinLoginPost(Request $request)
+    {
+        $request->validate([
+            'pin' => 'required|digits:6',
+        ]);
+        sleep(2);
+        if ($request->pin !== '757575') {
+            return to_route('users.login.pin')->withErrors(['error' => 'Invalid PIN']);
+        }
+
+        return to_route('users.login.pin')->with(['showAlert' => true]);
     }
 }
-
-//3404070905950007
-// 7201044707960005

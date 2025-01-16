@@ -56,7 +56,7 @@ export default {
                         error.response.data.errors.email ? error.value = error.response.data.errors.email[0] : '';
                     }
                 },
-                
+
             });
         };
         return { form, error, submit };

@@ -1,17 +1,18 @@
 import '../css/app.css';
 import './bootstrap';
 
-import { createInertiaApp } from '@inertiajs/vue3'; 
+import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
-import "flowbite";
+import 'flowbite';
+import 'preline';
 import { router } from "@inertiajs/vue3";
 import NProgress from "nprogress";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2"
 import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
-import "datatables.net";  
+import "datatables.net";
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 

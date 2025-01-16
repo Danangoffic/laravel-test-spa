@@ -1,5 +1,5 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
-import forms from '@tailwindcss/forms';
+// import forms from '@tailwindcss/forms';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -7,8 +7,11 @@ export default {
         "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
+        "./resources/**/*.js",
         "./resources/js/**/*.vue",
         "./node_modules/flowbite/**/*.js",
+        'node_modules/preline/dist/*.js',
+        './src/**/*.{vue,js,ts,jsx,tsx',
     ],
 
     theme: {
@@ -19,5 +22,5 @@ export default {
         },
     },
 
-    plugins: [forms, require("flowbite/plugin")],
+    plugins: [require("flowbite/plugin"), require('preline/plugin')],
 };
