@@ -14,6 +14,8 @@ Sebelum menjalankan proyek, pastikan Anda memiliki perangkat lunak berikut yang 
 cd <nama-direktori-proyek>
 composer install
 ### 2. Konfigurasi File .env
+mysql -u root -p
+CREATE DATABASE test_fe;
 ### 3. Generate Application Key
 php artisan key:generate
 ### 4. Migrasi Database
